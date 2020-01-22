@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        BigNumber n1 = new BigNumber("00002323235");
-        BigNumber n2 = new BigNumber("232323");
-        System.out.println(n1.compareTo(n2));
+        BigNumber n1 = new BigNumber("568");
+        BigNumber n2 = new BigNumber("96526");
+        System.out.println(n1.add(n2));
     }
 }

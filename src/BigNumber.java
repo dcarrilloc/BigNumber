@@ -16,15 +16,46 @@ public class BigNumber {
 
     // Suma
     BigNumber add(BigNumber other) {
-        BigNumber result;
-        String number2 = other.toString();
+
+        StringBuilder number1 = new StringBuilder(quitarCeros(this.number.toString()));
+        StringBuilder number2 = new StringBuilder(quitarCeros(other.toString()));
+        StringBuilder result = new StringBuilder();
+        int exceso = 0;
+
+        // nos aseguramos de que los dos números son válidos
+        if (!numeroValido(number1.toString()) || !numeroValido(number2.toString())) {
+            return new BigNumber("0");
+        }
+
+
+        // si los números tienen diferente cantidad de dígitos
+        // entonces rellenaremos con 0 a la izquierda el mas pequeño
+        if (number1.length() > number2.length()) {
+
+        } else if (number1.length() < number2.length()) {
+
+        }
 
 
 
+        for (int i = 0, c = number2.length() - 1; i < number2.length(); i++, c--) {
+            if ((number1.charAt(c) - 48) + (number2.charAt(c) - 48) + exceso >= 10) {
+                result.append((number1.charAt(c) - 48) + (number2.charAt(c) - 48) - 10 + exceso);
+                exceso = 1;
+            } else {
+                result.append((number1.charAt(c) - 48) + (number2.charAt(c) - 48) + exceso);
+                exceso = 0;
+            }
+        }
 
+        if (exceso != 0) {
+            result.append(exceso);
+        }
 
+        result.reverse();
+        System.out.println(result);
 
-        return other;
+        return new BigNumber(result.toString());
     }
 
 
@@ -85,8 +116,8 @@ public class BigNumber {
                 if (number1.charAt(i) > number2.charAt(i)) return 1;
                 if (number1.charAt(i) < number2.charAt(i)) return -1;
             }
+            return 0;
         }
-        return 0;
     }
 
 
@@ -100,41 +131,11 @@ public class BigNumber {
     @Override
     public boolean equals(Object other) {
 
-        // comprobamos que los dos números son válidos
-        if (!numeroValido(this.number) || !numeroValido(other.toString())) {
-            System.out.println("Ha habido un error.");
-            return false;
+        if (other instanceof BigNumber) {
+            BigNumber b = (BigNumber) other;
+            if (quitarCeros(this.number).equals(quitarCeros(b.toString()))) return true;
         }
-
-        String primerNum = quitarCeros(this.number);
-        String segundoNum = quitarCeros(other.toString());
-
-        // creando arrays
-        int[] number1 = new int[primerNum.length()];
-        int[] number2 = new int[segundoNum.length()];
-
-        for (int i = 0; i < number1.length; i++) {
-            number1[i] = primerNum.charAt(i);
-        }
-
-        for (int i = 0; i < number2.length; i++) {
-            number2[i] = segundoNum.charAt(i);
-        }
-
-
-        // comparando los dos números //
-
-        if (number1.length != number2.length) {
-            return false;
-        } else {
-
-            for (int i = 0; i < number1.length; i++) {
-                if (number1[i] != number2[i]) {
-                    return false;
-                }
-            }
-            return true;
-        }
+        return false;
     }
 
     public String quitarCeros(String s) {
