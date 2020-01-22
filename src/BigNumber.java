@@ -29,11 +29,21 @@ public class BigNumber {
 
 
         // si los números tienen diferente cantidad de dígitos
-        // entonces rellenaremos con 0 a la izquierda el mas pequeño
+        // entonces rellenaremos con 0 a la izquierda el menor
+        int diferencia = Math.abs(number1.length() - number2.length());
         if (number1.length() > number2.length()) {
+            number2.reverse();
+            for (int i = 0; i < diferencia; i++) {
+                number2.append("0");
+            }
+            number2.reverse();
 
         } else if (number1.length() < number2.length()) {
-
+            number1.reverse();
+            for (int i = 0; i < diferencia; i++) {
+                number1.append("0");
+            }
+            number1.reverse();
         }
 
 
@@ -133,7 +143,7 @@ public class BigNumber {
 
         if (other instanceof BigNumber) {
             BigNumber b = (BigNumber) other;
-            if (quitarCeros(this.number).equals(quitarCeros(b.toString()))) return true;
+            return quitarCeros(this.number).equals(quitarCeros(b.toString()));
         }
         return false;
     }
