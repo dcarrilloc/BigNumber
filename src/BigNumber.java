@@ -17,7 +17,7 @@ public class BigNumber {
     // Suma
     BigNumber add(BigNumber other) {
 
-        StringBuilder number1 = new StringBuilder(quitarCeros(this.number.toString()));
+        StringBuilder number1 = new StringBuilder(quitarCeros(this.number));
         StringBuilder number2 = new StringBuilder(quitarCeros(other.toString()));
         StringBuilder result = new StringBuilder();
         int exceso = 0;
@@ -47,7 +47,6 @@ public class BigNumber {
         }
 
 
-
         for (int i = 0, c = number2.length() - 1; i < number2.length(); i++, c--) {
             if ((number1.charAt(c) - 48) + (number2.charAt(c) - 48) + exceso >= 10) {
                 result.append((number1.charAt(c) - 48) + (number2.charAt(c) - 48) - 10 + exceso);
@@ -72,7 +71,22 @@ public class BigNumber {
 
     // Resta
     BigNumber sub(BigNumber other) {
-        return other;
+
+        StringBuilder number1 = new StringBuilder(quitarCeros(this.number));
+        StringBuilder number2 = new StringBuilder(quitarCeros(other.toString()));
+        StringBuilder result = new StringBuilder();
+        int exceso = 0;
+
+        // supondremos que el numero 1 es mas grande que el numero 2
+
+        
+
+
+
+
+
+
+        return new BigNumber(result.toString());
     }
 
 
