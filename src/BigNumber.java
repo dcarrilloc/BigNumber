@@ -53,9 +53,30 @@ class BigNumber {
     // Compara dos BigNumber. Torna 0 si són iguals, -1 si el primer és menor
     // i torna 1 si el segon és menor
     public int compareTo(BigNumber other) {
+
+        String number1 = quitarCeros(this.number);
+        String number2 = quitarCeros(other.toString());
+
+        // comprobamos que los dos números son válidos
+        if (!numeroValido(number1) || !numeroValido(number2)) {
+            System.out.println("Ha habido un error.");
+            return -2;
+        }
+
+        if (number1.length() != number2.length()) {
+            // si la longitud de los números es diferente entre si
+            if (number1.length() > number2.length()) return 1;
+            return -1;
+
+        } else {
+            // si la longitud de los números es igual
+            for (int i = 0; i < number1.length(); i++) {
+                if (number1.charAt(i) > number2.charAt(i)) return 1;
+                if (number1.charAt(i) < number2.charAt(i)) return -1;
+            }
+        }
         return 0;
     }
-
 
 
     // Torna un String representant el número
@@ -64,11 +85,15 @@ class BigNumber {
         return this.number;
     }
 
-
-
     // Mira si dos objectes BigNumber són iguals
     @Override
     public boolean equals(Object other) {
+
+        // comprobamos que los dos números son válidos
+        if (!numeroValido(this.number) || !numeroValido(other.toString())) {
+            System.out.println("Ha habido un error.");
+            return false;
+        }
 
         String primerNum = quitarCeros(this.number);
         String segundoNum = quitarCeros(other.toString());
@@ -98,7 +123,6 @@ class BigNumber {
                 }
             }
             return true;
-
         }
     }
 
@@ -118,5 +142,16 @@ class BigNumber {
 
         return number.toString();
     }
-    
+
+
+    // comprueba que todos los dígitos de n son válidos
+    public boolean numeroValido(String n) {
+
+        for (int i = 0; i < n.length(); i++) {
+            if (n.charAt(i) < 48 || n.charAt(i) > 57) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
