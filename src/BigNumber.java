@@ -1,4 +1,4 @@
-class BigNumber {
+public class BigNumber {
 
     private String number;
 
@@ -48,7 +48,18 @@ class BigNumber {
         return other;
     }
 
+    /*
 
+    // Arrel quadrada
+    BigNumber sqrt() { }
+    // Potència
+    BigNumber power(int n) { }
+    // Factorial
+    BigNumber factorial() { }
+    // MCD. Torna el Màxim comú divisor
+    BigNumber mcd(Bignumber other) { }
+
+     */
 
     // Compara dos BigNumber. Torna 0 si són iguals, -1 si el primer és menor
     // i torna 1 si el segon és menor

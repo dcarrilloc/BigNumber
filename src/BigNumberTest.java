@@ -1,8 +1,7 @@
-package Tests;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-/*
+
 public class BigNumberTest {
 
     @Test
@@ -251,7 +250,7 @@ public class BigNumberTest {
         b2 = new BigNumber("9999999999999999463499999999999999999");
         assertEquals(new BigNumber("5673"), b1.div(b2));
     }
-
+/*
     @Test
     public void arrels() {
         BigNumber b1;
@@ -330,7 +329,6 @@ public class BigNumberTest {
         b2 = new BigNumber("5");
         //assertEquals(new BigNumber("4"), b1.mcd(b2));
     }
-
+*/
 
 }
-*/
