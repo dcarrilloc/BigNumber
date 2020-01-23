@@ -79,6 +79,7 @@ public class BigNumber {
 
         // supondremos que el numero 1 es mas grande que el numero 2
 
+
         
 
 
