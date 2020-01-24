@@ -49,10 +49,10 @@ public class BigNumber {
 
         for (int i = 0, c = number2.length() - 1; i < number2.length(); i++, c--) {
             if ((number1.charAt(c) - 48) + (number2.charAt(c) - 48) + exceso >= 10) {
-                result.append((number1.charAt(c) - 48) + (number2.charAt(c) - 48) - 10 + exceso);
+                result.append((number1.charAt(c) - 48 + exceso) + (number2.charAt(c) - 48) - 10);
                 exceso = 1;
             } else {
-                result.append((number1.charAt(c) - 48) + (number2.charAt(c) - 48) + exceso);
+                result.append((number1.charAt(c) - 48 + exceso) + (number2.charAt(c) - 48));
                 exceso = 0;
             }
         }
@@ -79,13 +79,35 @@ public class BigNumber {
 
         // supondremos que el numero 1 es mas grande que el numero 2
 
+        if (!numeroValido(number1.toString()) || !numeroValido(number2.toString())) {
+            return new BigNumber("0");
+        }
 
-        
+        // si los números tienen diferente cantidad de dígitos
+        // entonces rellenaremos con 0 a la izquierda el menor
+        int diferencia = Math.abs(number1.length() - number2.length());
+        if (number1.length() > number2.length()) {
+            number2.reverse();
+            for (int i = 0; i < diferencia; i++) {
+                number2.append("0");
+            }
+            number2.reverse();
+
+        }
 
 
+        // restamos
+        for (int i = 0, c = number1.length() - 1; i < number1.length(); i++, c--) {
+            if ((number1.charAt(c) - 48) < (number2.charAt(c) - 48) + exceso) {
+                result.append((number1.charAt(c) - 48 + 10) - (number2.charAt(c) - 48 + exceso));
+                exceso = 1;
+            } else {
+                result.append((number1.charAt(c) - 48) - (number2.charAt(c) - 48 + exceso));
+                exceso = 0;
+            }
+        }
 
-
-
+        result.reverse();
 
         return new BigNumber(result.toString());
     }
