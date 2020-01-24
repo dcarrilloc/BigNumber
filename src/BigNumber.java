@@ -116,7 +116,48 @@ public class BigNumber {
 
     // Multiplica
     BigNumber mult(BigNumber other) {
-        return other;
+
+        StringBuilder number1 = new StringBuilder(quitarCeros(this.number));
+        StringBuilder number2 = new StringBuilder(quitarCeros(other.toString()));
+        StringBuilder result = new StringBuilder();
+        int exceso = 0;
+        int exceso_aux;
+        int counter = 0;
+
+        if (!numeroValido(number1.toString()) || !numeroValido(number2.toString())) {
+            return new BigNumber("0");
+        }
+
+
+        for (int i = number2.length() - 1; i >= 0; i--) {
+            for (int j = number1.length() - 1; j >= 0; j--) {
+                if ((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + exceso > 10) {
+                    exceso_aux = ((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + exceso) / 10;
+                    //result.append(((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + exceso) - (10 * exceso_aux));
+                    int x = (((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + exceso) - (10 * exceso_aux));
+
+
+                    counter++;
+
+                    exceso = exceso_aux;
+                } else {
+                    result.append(0);
+                    result.append((number1.charAt(j) - 48) - (number2.charAt(i) - 48) + exceso);
+                }
+            }
+            if (exceso != 0) {
+                result.append(exceso);
+            }
+            exceso = 0;
+
+
+
+
+
+        }
+
+
+        return new BigNumber(result.toString());
     }
 
 
