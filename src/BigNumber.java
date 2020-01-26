@@ -138,6 +138,7 @@ public class BigNumber {
                     acarreo = 0;
                 }
             }
+            
             if (acarreo != 0) mult_result.append(acarreo);
             acarreo = 0;
 
@@ -149,14 +150,12 @@ public class BigNumber {
             }
 
             BigNumber aux = new BigNumber(mult_result.toString());
-
-
-
             result = result.add(aux);
 
-            // limpiamos el string
+            // limpiamos el string antes de empezar el bucle
             mult_result.delete(0,mult_result.length());
         }
+
         return result;
     }
 
