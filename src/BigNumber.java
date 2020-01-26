@@ -62,7 +62,6 @@ public class BigNumber {
         }
 
         result.reverse();
-        System.out.println(result);
 
         return new BigNumber(result.toString());
     }
@@ -92,7 +91,6 @@ public class BigNumber {
                 number2.append("0");
             }
             number2.reverse();
-
         }
 
 
@@ -119,47 +117,48 @@ public class BigNumber {
 
         StringBuilder number1 = new StringBuilder(quitarCeros(this.number));
         StringBuilder number2 = new StringBuilder(quitarCeros(other.toString()));
-        StringBuilder result = new StringBuilder();
-        int exceso = 0;
-        int exceso_aux;
-        int counter = 0;
+        StringBuilder mult_result = new StringBuilder();
+        BigNumber result = new BigNumber("0");
+        int acarreo = 0;
+        int acarreo_aux;
 
         if (!numeroValido(number1.toString()) || !numeroValido(number2.toString())) {
             return new BigNumber("0");
         }
 
-
-        for (int i = number2.length() - 1; i >= 0; i--) {
+        for (int i = number2.length() - 1, counter = 0; i >= 0; i--, counter++) {
             for (int j = number1.length() - 1; j >= 0; j--) {
-                if ((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + exceso > 10) {
-                    exceso_aux = ((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + exceso) / 10;
-                    //result.append(((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + exceso) - (10 * exceso_aux));
-                    int x = (((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + exceso) - (10 * exceso_aux));
+                if ((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + acarreo >= 10) {
+                    acarreo_aux = ((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + acarreo) / 10;
+                    mult_result.append(((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + acarreo) - (10 * acarreo_aux));
 
-
-                    counter++;
-
-                    exceso = exceso_aux;
+                    acarreo = acarreo_aux;
                 } else {
-                    result.append(0);
-                    result.append((number1.charAt(j) - 48) - (number2.charAt(i) - 48) + exceso);
+                    mult_result.append((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + acarreo);
+                    acarreo = 0;
                 }
             }
-            if (exceso != 0) {
-                result.append(exceso);
+            if (acarreo != 0) mult_result.append(acarreo);
+            acarreo = 0;
+
+            mult_result.reverse();
+
+            // añadir los ceros necesarios
+            for (int j = 0; j < counter; j++) {
+                mult_result.append(0);
             }
-            exceso = 0;
+
+            BigNumber aux = new BigNumber(mult_result.toString());
 
 
 
+            result = result.add(aux);
 
-
+            // limpiamos el string
+            mult_result.delete(0,mult_result.length());
         }
-
-
-        return new BigNumber(result.toString());
+        return result;
     }
-
 
 
     // Divideix
@@ -232,12 +231,22 @@ public class BigNumber {
 
         StringBuilder number = new StringBuilder();
         int counter = 0;
-        for (int i = 0; s.charAt(i) == 48; i++) {
-            counter++;
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) != 48) {
+                break;
+            } else {
+                counter ++;
+            }
         }
 
-        for (int i = 0; i < s.length() - counter; i++) {
-            number.append(s.charAt(i + counter));
+        // significa que es un numero de tipo: 0000
+        if (counter == s.length()) {
+            return "0";
+        } else {
+            for (int i = 0; i < s.length() - counter; i++) {
+                number.append(s.charAt(i + counter));
+            }
         }
 
         return number.toString();
