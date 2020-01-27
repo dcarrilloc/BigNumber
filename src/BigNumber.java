@@ -162,7 +162,34 @@ public class BigNumber {
 
     // Divideix
     BigNumber div(BigNumber other) {
-        return other;
+
+
+        BigNumber dividendo = new BigNumber(quitarCeros(this.number));
+        BigNumber divisor = new BigNumber(quitarCeros(other.toString()));
+        BigNumber residuo = new BigNumber("0");
+        BigNumber cociente = new BigNumber("0");
+        StringBuilder residuo_aux = new StringBuilder();
+        int puntero = 0;
+        BigNumber counter = new BigNumber("0");
+
+        if (!numeroValido(dividendo.toString()) || !numeroValido(divisor.toString())) {
+            return new BigNumber("0");
+        }
+        
+        // empezamos la division
+        for (int i = 0; i < dividendo.toString().length(); i++) {
+            while(residuo.compareTo(divisor) == -1){
+                residuo_aux.append(dividendo.toString().charAt(puntero));
+                residuo = new BigNumber(residuo_aux.toString());
+                puntero++;
+            }
+            System.out.println("Procedemos a dividir");
+        }
+        
+
+
+
+        return new BigNumber(cociente.toString());
     }
 
     /*
