@@ -63,7 +63,7 @@ public class BigNumber {
 
         result.reverse();
 
-        return new BigNumber(result.toString());
+        return new BigNumber(quitarCeros(result.toString()));
     }
 
 
@@ -107,7 +107,7 @@ public class BigNumber {
 
         result.reverse();
 
-        return new BigNumber(result.toString());
+        return new BigNumber(quitarCeros(result.toString()));
     }
 
 
@@ -168,38 +168,54 @@ public class BigNumber {
         BigNumber divisor = new BigNumber(quitarCeros(other.toString()));
         BigNumber residuo = new BigNumber("0");
         StringBuilder cociente = new StringBuilder();
-        BigNumber cociente_aux = new BigNumber("0");
+        StringBuilder cociente_aux = new StringBuilder();
         StringBuilder residuo_aux = new StringBuilder();
         int puntero = 0;
-        BigNumber counter = new BigNumber("0");
+        int counter = 0;
+        boolean continuarDivision = true;
 
         if (!numeroValido(dividendo.toString()) || !numeroValido(divisor.toString())) {
             return new BigNumber("0");
         }
         
         // empezamos la division
-        for (int i = 0; i < dividendo.toString().length(); i++) {
+        while(true) {
 
             while(residuo.compareTo(divisor) == -1){
+
+                if(puntero >= dividendo.toString().length()) {
+                    continuarDivision = false;
+                    break;
+                }
+
+                residuo_aux = new StringBuilder(residuo.toString());
                 residuo_aux.append(dividendo.toString().charAt(puntero));
                 residuo = new BigNumber(residuo_aux.toString());
                 puntero++;
+                counter ++;
+
             }
 
-            System.out.println("Procedemos a dividir");
-
-            while(cociente_aux.mult(divisor).compareTo(residuo) == -1) {
-                cociente_aux = new BigNumber(cociente_aux.add(new BigNumber("1")));
+            if (!continuarDivision) {
+                break;
             }
-            cociente.append(new BigNumber(cociente_aux.sub(new BigNumber("1"))));
 
+            residuo_aux.delete(0, residuo_aux.length());
 
+            while(new BigNumber(cociente_aux.toString()).mult(divisor).compareTo(residuo) == -1 || new BigNumber(cociente_aux.toString()).mult(divisor).compareTo(residuo) == 0) {
+                cociente_aux = new StringBuilder(new BigNumber(cociente_aux.toString()).add(new BigNumber("1")).toString());
+            }
+            cociente_aux = new StringBuilder(new BigNumber(cociente_aux.toString()).sub(new BigNumber("1")).toString());
+            cociente.append(new StringBuilder(cociente_aux));
+
+            residuo = new BigNumber(residuo.sub(divisor.mult(new BigNumber(cociente_aux.toString()))));
+
+            cociente_aux = new StringBuilder();
 
         }
-        
 
 
-
+        System.out.println(cociente.toString());
         return new BigNumber(cociente.toString());
     }
 
