@@ -166,71 +166,95 @@ public class BigNumber {
 
         BigNumber dividendo = new BigNumber(quitarCeros(this.number));
         BigNumber divisor = new BigNumber(quitarCeros(other.toString()));
-        BigNumber residuo = new BigNumber("0");
+        StringBuilder residuo = new StringBuilder();
         StringBuilder cociente = new StringBuilder();
-        StringBuilder cociente_aux = new StringBuilder();
-        StringBuilder residuo_aux = new StringBuilder();
+        BigNumber cociente_aux = new BigNumber("0");
+        StringBuilder primerNumero = new StringBuilder();
         int puntero = 0;
-        int counter = 0;
-        boolean continuarDivision = true;
+        int cocienteCounter = 0;
+        boolean seguirDivision = true;
 
-        if (!numeroValido(dividendo.toString()) || !numeroValido(divisor.toString())) {
+
+        if (!numeroValido(dividendo.toString()) || !numeroValido(divisor.toString()) || dividendo.compareTo(divisor) == -1
+            || dividendo.compareTo(new BigNumber("0")) == 0) {
             return new BigNumber("0");
         }
-        
-        // empezamos la division
-        while(true) {
 
-            while(residuo.compareTo(divisor) == -1){
+        // elegimos el numero que vamos a dividir la primera vez
+        while(new BigNumber(primerNumero.toString()).compareTo(divisor) == -1) {
+            primerNumero.append(dividendo.toString().charAt(puntero));
+            puntero ++;
+        }
+        residuo = new StringBuilder(primerNumero);
 
-                if(puntero >= dividendo.toString().length()) {
-                    continuarDivision = false;
+        // empezamos a dividir
+        while(seguirDivision){
+
+            // elegimos el cociente adecuado
+            while(new BigNumber(cociente_aux.toString()).mult(divisor).compareTo(new BigNumber(residuo.toString())) < 1) {
+                cociente_aux = new BigNumber(cociente_aux.add(new BigNumber("1")));
+            }
+            cociente_aux = new BigNumber(cociente_aux.sub(new BigNumber("1")));
+            cociente.append(cociente_aux);
+
+            // dividimos
+            residuo = new StringBuilder(new BigNumber(residuo.toString()).sub(divisor.mult(new BigNumber(cociente_aux.toString()))).toString());
+
+            cociente_aux = new BigNumber("0");
+
+
+            // bajamos numeros del dividendo al residuo siempre que sea necesario
+            while(new BigNumber(residuo.toString()).compareTo(divisor) < 0) {
+
+                if (puntero == dividendo.toString().length()){
+                    seguirDivision = false;
                     break;
                 }
 
-                residuo_aux = new StringBuilder(residuo.toString());
-                residuo_aux.append(dividendo.toString().charAt(puntero));
-                residuo = new BigNumber(residuo_aux.toString());
+                residuo.append(dividendo.toString().charAt(puntero));
+
+                if (new BigNumber(residuo.toString()).compareTo(divisor) < 0){
+                    cociente.append("0");
+                }
                 puntero++;
-                counter ++;
-
             }
-
-            if (!continuarDivision) {
-                break;
-            }
-
-            residuo_aux.delete(0, residuo_aux.length());
-
-            while(new BigNumber(cociente_aux.toString()).mult(divisor).compareTo(residuo) == -1 || new BigNumber(cociente_aux.toString()).mult(divisor).compareTo(residuo) == 0) {
-                cociente_aux = new StringBuilder(new BigNumber(cociente_aux.toString()).add(new BigNumber("1")).toString());
-            }
-            cociente_aux = new StringBuilder(new BigNumber(cociente_aux.toString()).sub(new BigNumber("1")).toString());
-            cociente.append(new StringBuilder(cociente_aux));
-
-            residuo = new BigNumber(residuo.sub(divisor.mult(new BigNumber(cociente_aux.toString()))));
-
-            cociente_aux = new StringBuilder();
-
         }
 
-
-        System.out.println(cociente.toString());
         return new BigNumber(cociente.toString());
     }
 
-    /*
+
 
     // Arrel quadrada
-    BigNumber sqrt() { }
-    // Potència
-    BigNumber power(int n) { }
-    // Factorial
-    BigNumber factorial() { }
-    // MCD. Torna el Màxim comú divisor
-    BigNumber mcd(Bignumber other) { }
+    BigNumber sqrt() {
+        BigNumber result = new BigNumber("");
 
-     */
+
+        return result;
+    }
+
+    // Potència
+    BigNumber power(int n) {
+        BigNumber result = new BigNumber("");
+
+
+        return result;
+    }
+    // Factorial
+    BigNumber factorial() {
+        BigNumber result = new BigNumber("");
+
+
+        return result;
+    }
+    // MCD. Torna el Màxim comú divisor
+    BigNumber mcd(BigNumber other) {
+        BigNumber result = new BigNumber("");
+
+
+        return result;
+    }
+
 
     // Compara dos BigNumber. Torna 0 si són iguals, -1 si el primer és menor
     // i torna 1 si el segon és menor

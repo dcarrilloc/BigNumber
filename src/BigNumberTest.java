@@ -214,6 +214,18 @@ public class BigNumberTest {
     public void divisions() {
         BigNumber b1, b2;
 
+        b1 = new BigNumber("6546545646546546546546546487978978789231321321002020205184800050508000009878978899999999999934534543534534534534534535120210212107686786789979797948151999494919999901210211");
+        b2 = new BigNumber("99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999");
+        assertEquals(new BigNumber("65465456465465465465465464879789787892313213210020202051848000505080000098789789"), b1.div(b2));
+
+        b1 = new BigNumber("100000");
+        b2 = new BigNumber("100");
+        assertEquals(new BigNumber("1000"), b1.div(b2));
+
+        b1 = new BigNumber("0");
+        b2 = new BigNumber("5");
+        assertEquals(new BigNumber("0"), b1.div(b2));
+
         b1 = new BigNumber("45354645634563456345456345234545897894562634563456");
         b2 = new BigNumber("45634563456345634563456546799008905634563456456");
         assertEquals(new BigNumber("993"), b1.div(b2));
@@ -250,7 +262,7 @@ public class BigNumberTest {
         b2 = new BigNumber("9999999999999999463499999999999999999");
         assertEquals(new BigNumber("5673"), b1.div(b2));
     }
-/*
+
     @Test
     public void arrels() {
         BigNumber b1;
@@ -329,6 +341,6 @@ public class BigNumberTest {
         b2 = new BigNumber("5");
         //assertEquals(new BigNumber("4"), b1.mcd(b2));
     }
-*/
+
 
 }
