@@ -67,7 +67,6 @@ public class BigNumber {
     }
 
 
-
     // Resta
     BigNumber sub(BigNumber other) {
 
@@ -109,7 +108,6 @@ public class BigNumber {
 
         return new BigNumber(quitarCeros(result.toString()));
     }
-
 
 
     // Multiplica
@@ -224,7 +222,6 @@ public class BigNumber {
     }
 
 
-
     // Arrel quadrada
     BigNumber sqrt() {
         BigNumber result = new BigNumber("");
@@ -235,18 +232,36 @@ public class BigNumber {
 
     // Potència
     BigNumber power(int n) {
-        BigNumber result = new BigNumber("");
 
+        if (!numeroValido(this.toString()) || n < 0) return new BigNumber("0");
+        if (n == 0) return new BigNumber("1");
 
+        BigNumber result = new BigNumber(this.toString());
+
+        for (int i = n - 1; i > 0; i--) {
+            result = new BigNumber(result.mult(this));
+        }
         return result;
     }
+
+
     // Factorial
     BigNumber factorial() {
-        BigNumber result = new BigNumber("");
 
+        if (!numeroValido(this.toString())) return new BigNumber("0");
+
+        BigNumber multiplicador = new BigNumber(this.toString());
+        BigNumber result = new BigNumber(this.toString());
+
+        while (multiplicador.compareTo(new BigNumber("1")) == 1) {
+            multiplicador = new BigNumber(multiplicador.sub(new BigNumber("1")));
+            result = new BigNumber(result.mult(multiplicador));
+        }
 
         return result;
     }
+
+
     // MCD. Torna el Màxim comú divisor
     BigNumber mcd(BigNumber other) {
         BigNumber result = new BigNumber("");

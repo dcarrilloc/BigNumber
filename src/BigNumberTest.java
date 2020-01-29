@@ -290,8 +290,14 @@ public class BigNumberTest {
     public void potencies() {
         BigNumber b1;
 
+        b1 = new BigNumber("0");
+        assertEquals(new BigNumber("0"), b1.power(2));
+
         b1 = new BigNumber("5");
         assertEquals(new BigNumber("25"), b1.power(2));
+
+        b1 = new BigNumber("5");
+        assertEquals(new BigNumber("1"), b1.power(0));
 
         b1 = new BigNumber("12");
         assertEquals(new BigNumber("1728"), b1.power(3));
