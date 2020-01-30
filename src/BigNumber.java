@@ -161,64 +161,9 @@ public class BigNumber {
     // Divideix
     BigNumber div(BigNumber other) {
 
+        String[] aux = divisioAmpliada(other);
+        return new BigNumber(aux[0]);
 
-        BigNumber dividendo = new BigNumber(quitarCeros(this.number));
-        BigNumber divisor = new BigNumber(quitarCeros(other.toString()));
-        StringBuilder residuo = new StringBuilder();
-        StringBuilder cociente = new StringBuilder();
-        BigNumber cociente_aux = new BigNumber("0");
-        StringBuilder primerNumero = new StringBuilder();
-        int puntero = 0;
-        int cocienteCounter = 0;
-        boolean seguirDivision = true;
-
-
-        if (!numeroValido(dividendo.toString()) || !numeroValido(divisor.toString()) || dividendo.compareTo(divisor) == -1
-            || dividendo.compareTo(new BigNumber("0")) == 0) {
-            return new BigNumber("0");
-        }
-
-        // elegimos el numero que vamos a dividir la primera vez
-        while(new BigNumber(primerNumero.toString()).compareTo(divisor) == -1) {
-            primerNumero.append(dividendo.toString().charAt(puntero));
-            puntero ++;
-        }
-        residuo = new StringBuilder(primerNumero);
-
-        // empezamos a dividir
-        while(seguirDivision){
-
-            // elegimos el cociente adecuado
-            while(new BigNumber(cociente_aux.toString()).mult(divisor).compareTo(new BigNumber(residuo.toString())) < 1) {
-                cociente_aux = new BigNumber(cociente_aux.add(new BigNumber("1")));
-            }
-            cociente_aux = new BigNumber(cociente_aux.sub(new BigNumber("1")));
-            cociente.append(cociente_aux);
-
-            // dividimos
-            residuo = new StringBuilder(new BigNumber(residuo.toString()).sub(divisor.mult(new BigNumber(cociente_aux.toString()))).toString());
-
-            cociente_aux = new BigNumber("0");
-
-
-            // bajamos numeros del dividendo al residuo siempre que sea necesario
-            while(new BigNumber(residuo.toString()).compareTo(divisor) < 0) {
-
-                if (puntero == dividendo.toString().length()){
-                    seguirDivision = false;
-                    break;
-                }
-
-                residuo.append(dividendo.toString().charAt(puntero));
-
-                if (new BigNumber(residuo.toString()).compareTo(divisor) < 0){
-                    cociente.append("0");
-                }
-                puntero++;
-            }
-        }
-
-        return new BigNumber(cociente.toString());
     }
 
 
@@ -268,6 +213,82 @@ public class BigNumber {
 
 
         return result;
+    }
+
+    // Aquesta funció executa la divisió de dos BigNumbers però també ens proporciona
+    // més informació útil com el reste de la divisió o el cocient.
+    String[] divisioAmpliada(BigNumber other) {
+        String[] resultat = new String[3];
+
+
+        BigNumber dividendo = new BigNumber(quitarCeros(this.number));
+        BigNumber divisor = new BigNumber(quitarCeros(other.toString()));
+        StringBuilder residuo = new StringBuilder();
+        StringBuilder cociente = new StringBuilder();
+        BigNumber cociente_aux = new BigNumber("0");
+        StringBuilder primerNumero = new StringBuilder();
+        int puntero = 0;
+        boolean seguirDivision = true;
+
+
+        if (!numeroValido(dividendo.toString()) || !numeroValido(divisor.toString()) || dividendo.compareTo(divisor) == -1
+                || dividendo.compareTo(new BigNumber("0")) == 0) {
+            resultat[0] = "0";
+            seguirDivision = false;
+        }
+
+        // elegimos el numero que vamos a dividir la primera vez
+        while(new BigNumber(primerNumero.toString()).compareTo(divisor) == -1 && seguirDivision) {
+            primerNumero.append(dividendo.toString().charAt(puntero));
+            puntero ++;
+        }
+        residuo = new StringBuilder(primerNumero);
+
+        // empezamos a dividir
+        while(seguirDivision){
+
+            // elegimos el cociente adecuado
+            while(new BigNumber(cociente_aux.toString()).mult(divisor).compareTo(new BigNumber(residuo.toString())) < 1) {
+                cociente_aux = new BigNumber(cociente_aux.add(new BigNumber("1")));
+            }
+            cociente_aux = new BigNumber(cociente_aux.sub(new BigNumber("1")));
+            cociente.append(cociente_aux);
+
+            // dividimos
+            residuo = new StringBuilder(new BigNumber(residuo.toString()).sub(divisor.mult(new BigNumber(cociente_aux.toString()))).toString());
+
+            cociente_aux = new BigNumber("0");
+
+
+            // bajamos numeros del dividendo al residuo siempre que sea necesario
+            while(new BigNumber(residuo.toString()).compareTo(divisor) < 0) {
+
+                if (puntero == dividendo.toString().length()){
+                    seguirDivision = false;
+                    break;
+                }
+
+                residuo.append(dividendo.toString().charAt(puntero));
+
+                if (new BigNumber(residuo.toString()).compareTo(divisor) < 0){
+                    cociente.append("0");
+                }
+                puntero++;
+            }
+        }
+
+        // ficam el quocient al primer lloc del string resultat
+        if (resultat[0] == null) {
+            resultat[0] = cociente.toString();
+        }
+
+        // ficam el residu al segon lloc
+        resultat[1] = residuo.toString();
+
+        // ficam el quocient al darrer lloc
+        resultat[2] = divisor.toString();
+
+        return resultat;
     }
 
 
