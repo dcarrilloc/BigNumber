@@ -331,6 +331,18 @@ public class BigNumberTest {
     public void mcd() {
         BigNumber b1, b2;
 
+        b1 = new BigNumber("858585");
+        b2 = new BigNumber("858585");
+        assertEquals(new BigNumber("858585"), b1.mcd(b2));
+
+        b1 = new BigNumber("0");
+        b2 = new BigNumber("0");
+        assertEquals(new BigNumber("0"), b1.mcd(b2));
+
+        b1 = new BigNumber("1032");
+        b2 = new BigNumber("180");
+        assertEquals(new BigNumber("12"), b1.mcd(b2));
+
         b1 = new BigNumber("155");
         b2 = new BigNumber("60");
         assertEquals(new BigNumber("5"), b1.mcd(b2));
@@ -346,7 +358,7 @@ public class BigNumberTest {
         b1 = new BigNumber("2454563453452346787893523445675534535656678678356");
         b2 = new BigNumber("5");
         //assertEquals(new BigNumber("4"), b1.mcd(b2));
-    }
 
+    }
 
 }

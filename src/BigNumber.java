@@ -161,7 +161,7 @@ public class BigNumber {
     // Divideix
     BigNumber div(BigNumber other) {
 
-        String[] aux = divisioAmpliada(other);
+        String[] aux = divisioAmpliada(this, other);
         return new BigNumber(aux[0]);
 
     }
@@ -209,19 +209,31 @@ public class BigNumber {
 
     // MCD. Torna el Màxim comú divisor
     BigNumber mcd(BigNumber other) {
-        BigNumber result = new BigNumber("");
 
+        // amb el mètode d'Euclides s'han d'ordenar els nombres de major a menor
+        String[] resultatDivisio = new String[3];
+        if(this.compareTo(other) >= 0) {
+            resultatDivisio = divisioAmpliada(this, other);
+        } else if(this.compareTo(other) < 0) {
+            resultatDivisio = divisioAmpliada(other, this);
+        }
 
-        return result;
+        // mentre que el residu sigui diferent de 0
+        while(!quitarCeros(resultatDivisio[1]).equals("0")) {
+            resultatDivisio = divisioAmpliada(new BigNumber(resultatDivisio[2]), new BigNumber(resultatDivisio[1]));
+        }
+
+        return new BigNumber(resultatDivisio[2]);
     }
+
 
     // Aquesta funció executa la divisió de dos BigNumbers però també ens proporciona
     // més informació útil com el reste de la divisió o el cocient.
-    String[] divisioAmpliada(BigNumber other) {
+    String[] divisioAmpliada(BigNumber principal, BigNumber other) {
         String[] resultat = new String[3];
 
 
-        BigNumber dividendo = new BigNumber(quitarCeros(this.number));
+        BigNumber dividendo = new BigNumber(quitarCeros(principal.toString()));
         BigNumber divisor = new BigNumber(quitarCeros(other.toString()));
         StringBuilder residuo = new StringBuilder();
         StringBuilder cociente = new StringBuilder();
