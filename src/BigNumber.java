@@ -163,7 +163,6 @@ public class BigNumber {
 
         String[] aux = divisioAmpliada(this, other);
         return new BigNumber(aux[0]);
-
     }
 
 
@@ -174,6 +173,7 @@ public class BigNumber {
 
         return result;
     }
+
 
     // Potència
     BigNumber power(int n) {
@@ -339,6 +339,7 @@ public class BigNumber {
         return this.number;
     }
 
+
     // Mira si dos objectes BigNumber són iguals
     @Override
     public boolean equals(Object other) {
@@ -349,6 +350,7 @@ public class BigNumber {
         }
         return false;
     }
+
 
     public String quitarCeros(String s) {
 
