@@ -168,10 +168,68 @@ public class BigNumber {
 
     // Arrel quadrada
     BigNumber sqrt() {
-        BigNumber result = new BigNumber("");
+
+        // comprovacions
+        if (!numeroValido(this.toString())) return new BigNumber("0");
+
+        StringBuilder result = new StringBuilder();
+        BigNumber residu = new BigNumber("");
+        StringBuilder grup = new StringBuilder();
+        StringBuilder multiplicador = new StringBuilder();
+        int punter = 0;
+        boolean primeraVegada = true;
+
+        // decidim quin serà el primer grup depenent de si el nombre es parell o imparell
+        if (this.toString().length() % 2 == 0) {
+            // es parell, el primer grup serà de dos dígits
+            for (int i = 0; i < 2; i++) {
+                grup.append(this.toString().charAt(i));
+                punter++;
+            }
+        } else {
+            // es imparell, el primer grup serà de un dígit
+            grup.append(this.toString().charAt(0));
+            punter++;
+        }
+
+        residu = new BigNumber(grup.toString());
+
+        // -----------------------------------------------------------------------------
 
 
-        return result;
+        if (punter == this.toString().length()) {
+            int grupInt = Integer.parseInt(grup.toString());
+            for (int i = 0; i < 9; i++) {
+                if (i * i > grupInt) {
+                    result.append(i - 1);
+                    break;
+                }
+            }
+        } else {
+            while(punter < this.toString().length()) {
+
+                if (primeraVegada) {
+                    primeraVegada = false;
+                } else {
+                    grup = new StringBuilder(quitarCeros(residu.toString()));
+                    // baixam els dos següents nombres
+                    for (int i = 0; i < 2; i++) {
+                        grup.append(this.toString().charAt(punter));
+                        punter++;
+                    }
+                }
+
+                for (int i = 0; i <= 10; i++) {
+                    if (new BigNumber(new BigNumber(result.toString()).mult(new BigNumber("2")).toString() + i).mult(new BigNumber(Integer.toString(i))).compareTo(new BigNumber(grup.toString())) == 1) {
+                        residu = new BigNumber(grup.toString()).sub(new BigNumber(new BigNumber(result.toString()).mult(new BigNumber("2")).toString() + (i - 1)).mult(new BigNumber(Integer.toString(i - 1))));
+                        result.append(i - 1);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return new BigNumber(result.toString());
     }
 
 

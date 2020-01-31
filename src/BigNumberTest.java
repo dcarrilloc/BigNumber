@@ -267,6 +267,9 @@ public class BigNumberTest {
     public void arrels() {
         BigNumber b1;
 
+        b1 = new BigNumber("21547");
+        assertEquals(new BigNumber("146"), b1.sqrt());
+
         b1 = new BigNumber("9");
         assertEquals(new BigNumber("3"), b1.sqrt());
 
