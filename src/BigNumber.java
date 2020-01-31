@@ -2,7 +2,6 @@ public class BigNumber {
 
     private String number;
 
-
     // Constructor 1
     public BigNumber(String s) {
         this.number = s;
@@ -17,162 +16,151 @@ public class BigNumber {
     // Suma
     BigNumber add(BigNumber other) {
 
-        StringBuilder number1 = new StringBuilder(quitarCeros(this.number));
-        StringBuilder number2 = new StringBuilder(quitarCeros(other.toString()));
-        StringBuilder result = new StringBuilder();
-        int exceso = 0;
+        StringBuilder nombre1 = new StringBuilder(llevarZeros(this.number));
+        StringBuilder nombre2 = new StringBuilder(llevarZeros(other.toString()));
+        StringBuilder resultat = new StringBuilder();
+        int desbordament = 0;
 
-        // nos aseguramos de que los dos números son válidos
-        if (!numeroValido(number1.toString()) || !numeroValido(number2.toString())) {
+        // ens asseguram que tots els nombre són vàlids
+        if (!nombreValid(nombre1.toString()) || !nombreValid(nombre2.toString())) {
             return new BigNumber("0");
         }
 
-
-        // si los números tienen diferente cantidad de dígitos
-        // entonces rellenaremos con 0 a la izquierda el menor
-        int diferencia = Math.abs(number1.length() - number2.length());
-        if (number1.length() > number2.length()) {
-            number2.reverse();
+        // si els nombres tenen diferent quantitat de dígits
+        // aleshores emplenarem amb zeros a l'esquerra el menor
+        int diferencia = Math.abs(nombre1.length() - nombre2.length());
+        if (nombre1.length() > nombre2.length()) {
+            nombre2.reverse();
             for (int i = 0; i < diferencia; i++) {
-                number2.append("0");
+                nombre2.append("0");
             }
-            number2.reverse();
+            nombre2.reverse();
 
-        } else if (number1.length() < number2.length()) {
-            number1.reverse();
+        } else if (nombre1.length() < nombre2.length()) {
+            nombre1.reverse();
             for (int i = 0; i < diferencia; i++) {
-                number1.append("0");
+                nombre1.append("0");
             }
-            number1.reverse();
+            nombre1.reverse();
         }
 
-
-        for (int i = 0, c = number2.length() - 1; i < number2.length(); i++, c--) {
-            if ((number1.charAt(c) - 48) + (number2.charAt(c) - 48) + exceso >= 10) {
-                result.append((number1.charAt(c) - 48 + exceso) + (number2.charAt(c) - 48) - 10);
-                exceso = 1;
+        // sumam
+        for (int i = 0, c = nombre2.length() - 1; i < nombre2.length(); i++, c--) {
+            if ((nombre1.charAt(c) - 48) + (nombre2.charAt(c) - 48) + desbordament >= 10) {
+                resultat.append((nombre1.charAt(c) - 48 + desbordament) + (nombre2.charAt(c) - 48) - 10);
+                desbordament = 1;
             } else {
-                result.append((number1.charAt(c) - 48 + exceso) + (number2.charAt(c) - 48));
-                exceso = 0;
+                resultat.append((nombre1.charAt(c) - 48 + desbordament) + (nombre2.charAt(c) - 48));
+                desbordament = 0;
             }
         }
 
-        if (exceso != 0) {
-            result.append(exceso);
+        if (desbordament != 0) {
+            resultat.append(desbordament);
         }
-
-        result.reverse();
-
-        return new BigNumber(quitarCeros(result.toString()));
+        resultat.reverse();
+        return new BigNumber(llevarZeros(resultat.toString()));
     }
-
 
     // Resta
     BigNumber sub(BigNumber other) {
 
-        StringBuilder number1 = new StringBuilder(quitarCeros(this.number));
-        StringBuilder number2 = new StringBuilder(quitarCeros(other.toString()));
-        StringBuilder result = new StringBuilder();
-        int exceso = 0;
+        StringBuilder nombre1 = new StringBuilder(llevarZeros(this.number));
+        StringBuilder nombre2 = new StringBuilder(llevarZeros(other.toString()));
+        StringBuilder resultat = new StringBuilder();
+        int desbordament = 0;
 
-        // supondremos que el numero 1 es mas grande que el numero 2
+        // suposarem que el nombre és més gran que el nombre 2
 
-        if (!numeroValido(number1.toString()) || !numeroValido(number2.toString())) {
+        if (!nombreValid(nombre1.toString()) || !nombreValid(nombre2.toString())) {
             return new BigNumber("0");
         }
 
-        // si los números tienen diferente cantidad de dígitos
-        // entonces rellenaremos con 0 a la izquierda el menor
-        int diferencia = Math.abs(number1.length() - number2.length());
-        if (number1.length() > number2.length()) {
-            number2.reverse();
+        // si els nombres tenen diferent quantitat de dígits
+        // aleshores emplenarem amb zeros a l'esquerra el menor
+        int diferencia = Math.abs(nombre1.length() - nombre2.length());
+        if (nombre1.length() > nombre2.length()) {
+            nombre2.reverse();
             for (int i = 0; i < diferencia; i++) {
-                number2.append("0");
+                nombre2.append("0");
             }
-            number2.reverse();
+            nombre2.reverse();
         }
 
-
-        // restamos
-        for (int i = 0, c = number1.length() - 1; i < number1.length(); i++, c--) {
-            if ((number1.charAt(c) - 48) < (number2.charAt(c) - 48) + exceso) {
-                result.append((number1.charAt(c) - 48 + 10) - (number2.charAt(c) - 48 + exceso));
-                exceso = 1;
+        // restam
+        for (int i = 0, c = nombre1.length() - 1; i < nombre1.length(); i++, c--) {
+            if ((nombre1.charAt(c) - 48) < (nombre2.charAt(c) - 48) + desbordament) {
+                resultat.append((nombre1.charAt(c) - 48 + 10) - (nombre2.charAt(c) - 48 + desbordament));
+                desbordament = 1;
             } else {
-                result.append((number1.charAt(c) - 48) - (number2.charAt(c) - 48 + exceso));
-                exceso = 0;
+                resultat.append((nombre1.charAt(c) - 48) - (nombre2.charAt(c) - 48 + desbordament));
+                desbordament = 0;
             }
         }
-
-        result.reverse();
-
-        return new BigNumber(quitarCeros(result.toString()));
+        resultat.reverse();
+        return new BigNumber(llevarZeros(resultat.toString()));
     }
-
 
     // Multiplica
     BigNumber mult(BigNumber other) {
 
-        StringBuilder number1 = new StringBuilder(quitarCeros(this.number));
-        StringBuilder number2 = new StringBuilder(quitarCeros(other.toString()));
-        StringBuilder mult_result = new StringBuilder();
-        BigNumber result = new BigNumber("0");
-        int acarreo = 0;
-        int acarreo_aux;
+        StringBuilder nombre1 = new StringBuilder(llevarZeros(this.number));
+        StringBuilder nombre2 = new StringBuilder(llevarZeros(other.toString()));
+        StringBuilder multResultat = new StringBuilder();
+        BigNumber resultat = new BigNumber("0");
+        int desbordament = 0;
+        int desbordamentAux;
 
-        if (!numeroValido(number1.toString()) || !numeroValido(number2.toString())) {
+        // feim les comprovacions pertinents
+        if (!nombreValid(nombre1.toString()) || !nombreValid(nombre2.toString())) {
             return new BigNumber("0");
         }
 
-        for (int i = number2.length() - 1, counter = 0; i >= 0; i--, counter++) {
-            for (int j = number1.length() - 1; j >= 0; j--) {
-                if ((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + acarreo >= 10) {
-                    acarreo_aux = ((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + acarreo) / 10;
-                    mult_result.append(((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + acarreo) - (10 * acarreo_aux));
-
-                    acarreo = acarreo_aux;
+        // bucle per multiplicar
+        for (int i = nombre2.length() - 1, counter = 0; i >= 0; i--, counter++) {
+            for (int j = nombre1.length() - 1; j >= 0; j--) {
+                if ((nombre1.charAt(j) - 48) * (nombre2.charAt(i) - 48) + desbordament >= 10) {
+                    desbordamentAux = ((nombre1.charAt(j) - 48) * (nombre2.charAt(i) - 48) + desbordament) / 10;
+                    multResultat.append(((nombre1.charAt(j) - 48) * (nombre2.charAt(i) - 48) + desbordament) - (10 * desbordamentAux));
+                    desbordament = desbordamentAux;
                 } else {
-                    mult_result.append((number1.charAt(j) - 48) * (number2.charAt(i) - 48) + acarreo);
-                    acarreo = 0;
+                    multResultat.append((nombre1.charAt(j) - 48) * (nombre2.charAt(i) - 48) + desbordament);
+                    desbordament = 0;
                 }
             }
-            
-            if (acarreo != 0) mult_result.append(acarreo);
-            acarreo = 0;
 
-            mult_result.reverse();
+            if (desbordament != 0) multResultat.append(desbordament);
+            desbordament = 0;
 
-            // añadir los ceros necesarios
+            multResultat.reverse();
+
+            // afegir els zeros necessaris
             for (int j = 0; j < counter; j++) {
-                mult_result.append(0);
+                multResultat.append(0);
             }
 
-            BigNumber aux = new BigNumber(mult_result.toString());
-            result = result.add(aux);
+            BigNumber aux = new BigNumber(multResultat.toString());
+            resultat = resultat.add(aux);
 
-            // limpiamos el string antes de empezar el bucle
-            mult_result.delete(0,mult_result.length());
+            // buidam el string abans de començar el bucle
+            multResultat.delete(0, multResultat.length());
         }
-
-        return result;
+        return resultat;
     }
-
 
     // Divideix
     BigNumber div(BigNumber other) {
-
         String[] aux = divisioAmpliada(this, other);
         return new BigNumber(aux[0]);
     }
-
 
     // Arrel quadrada
     BigNumber sqrt() {
 
         // comprovacions
-        if (!numeroValido(this.toString())) return new BigNumber("0");
+        if (!nombreValid(this.toString())) return new BigNumber("0");
 
-        StringBuilder result = new StringBuilder();
+        StringBuilder resultat = new StringBuilder();
         BigNumber residu = new BigNumber("");
         StringBuilder grup = new StringBuilder();
         StringBuilder multiplicador = new StringBuilder();
@@ -191,169 +179,158 @@ public class BigNumber {
             grup.append(this.toString().charAt(0));
             punter++;
         }
-
         residu = new BigNumber(grup.toString());
 
-        // -----------------------------------------------------------------------------
-
-
         if (punter == this.toString().length()) {
+            // per a nombres de 1 o 2 xifres
             int grupInt = Integer.parseInt(grup.toString());
             for (int i = 0; i < 9; i++) {
                 if (i * i > grupInt) {
-                    result.append(i - 1);
+                    resultat.append(i - 1);
                     break;
                 }
             }
         } else {
-            while(punter < this.toString().length()) {
-
+            // per a nombres de 3 o més xifres
+            while (punter < this.toString().length()) {
                 if (primeraVegada) {
+                    // només entrarà el primer pic i és per evitar que s'afegeixi el grup següent que ja s'ha assignat abans
                     primeraVegada = false;
                 } else {
-                    grup = new StringBuilder(quitarCeros(residu.toString()));
-                    // baixam els dos següents nombres
+                    grup = new StringBuilder(llevarZeros(residu.toString()));
+                    // baixam el següent grup
                     for (int i = 0; i < 2; i++) {
                         grup.append(this.toString().charAt(punter));
                         punter++;
                     }
                 }
-
+                // calcula el resultat de l'arrel
                 for (int i = 0; i <= 10; i++) {
-                    if (new BigNumber(new BigNumber(result.toString()).mult(new BigNumber("2")).toString() + i).mult(new BigNumber(Integer.toString(i))).compareTo(new BigNumber(grup.toString())) == 1) {
-                        residu = new BigNumber(grup.toString()).sub(new BigNumber(new BigNumber(result.toString()).mult(new BigNumber("2")).toString() + (i - 1)).mult(new BigNumber(Integer.toString(i - 1))));
-                        result.append(i - 1);
+                    if (new BigNumber(new BigNumber(resultat.toString()).mult(new BigNumber("2")).toString() + i).mult(new BigNumber(Integer.toString(i))).compareTo(new BigNumber(grup.toString())) == 1) {
+                        residu = new BigNumber(grup.toString()).sub(new BigNumber(new BigNumber(resultat.toString()).mult(new BigNumber("2")).toString() + (i - 1)).mult(new BigNumber(Integer.toString(i - 1))));
+                        resultat.append(i - 1);
                         break;
                     }
                 }
             }
         }
-
-        return new BigNumber(result.toString());
+        return new BigNumber(resultat.toString());
     }
-
 
     // Potència
     BigNumber power(int n) {
 
-        if (!numeroValido(this.toString()) || n < 0) return new BigNumber("0");
+        // comprovacions pertinents
+        if (!nombreValid(this.toString()) || n < 0) return new BigNumber("0");
         if (n == 0) return new BigNumber("1");
 
         BigNumber result = new BigNumber(this.toString());
-
+        // bucle per calcular la potència
         for (int i = n - 1; i > 0; i--) {
             result = new BigNumber(result.mult(this));
         }
         return result;
     }
 
-
     // Factorial
     BigNumber factorial() {
 
-        if (!numeroValido(this.toString())) return new BigNumber("0");
+        // comprovacions
+        if (!nombreValid(this.toString())) return new BigNumber("0");
 
         BigNumber multiplicador = new BigNumber(this.toString());
-        BigNumber result = new BigNumber(this.toString());
+        BigNumber resultat = new BigNumber(this.toString());
 
         while (multiplicador.compareTo(new BigNumber("1")) == 1) {
             multiplicador = new BigNumber(multiplicador.sub(new BigNumber("1")));
-            result = new BigNumber(result.mult(multiplicador));
+            resultat = new BigNumber(resultat.mult(multiplicador));
         }
 
-        return result;
+        return resultat;
     }
-
 
     // MCD. Torna el Màxim comú divisor
     BigNumber mcd(BigNumber other) {
 
         // amb el mètode d'Euclides s'han d'ordenar els nombres de major a menor
         String[] resultatDivisio = new String[3];
-        if(this.compareTo(other) >= 0) {
+        if (this.compareTo(other) >= 0) {
             resultatDivisio = divisioAmpliada(this, other);
-        } else if(this.compareTo(other) < 0) {
+        } else if (this.compareTo(other) < 0) {
             resultatDivisio = divisioAmpliada(other, this);
         }
 
-        // mentre que el residu sigui diferent de 0
-        while(!quitarCeros(resultatDivisio[1]).equals("0")) {
+        // mentre que el residu sigui diferent de 0 anirà dividint
+        while (!llevarZeros(resultatDivisio[1]).equals("0")) {
             resultatDivisio = divisioAmpliada(new BigNumber(resultatDivisio[2]), new BigNumber(resultatDivisio[1]));
         }
-
         return new BigNumber(resultatDivisio[2]);
     }
 
-
-    // Aquesta funció executa la divisió de dos BigNumbers però també ens proporciona
+    // aquesta funció executa la divisió de dos BigNumbers però també ens proporciona
     // més informació útil com el reste de la divisió o el cocient.
     String[] divisioAmpliada(BigNumber principal, BigNumber other) {
+
         String[] resultat = new String[3];
+        BigNumber dividend = new BigNumber(llevarZeros(principal.toString()));
+        BigNumber divisor = new BigNumber(llevarZeros(other.toString()));
+        StringBuilder quocient = new StringBuilder();
+        BigNumber quocientAux = new BigNumber("0");
+        StringBuilder primerNombre = new StringBuilder();
+        int punter = 0;
+        boolean seguirDivisio = true;
 
-
-        BigNumber dividendo = new BigNumber(quitarCeros(principal.toString()));
-        BigNumber divisor = new BigNumber(quitarCeros(other.toString()));
-        StringBuilder residuo = new StringBuilder();
-        StringBuilder cociente = new StringBuilder();
-        BigNumber cociente_aux = new BigNumber("0");
-        StringBuilder primerNumero = new StringBuilder();
-        int puntero = 0;
-        boolean seguirDivision = true;
-
-
-        if (!numeroValido(dividendo.toString()) || !numeroValido(divisor.toString()) || dividendo.compareTo(divisor) == -1
-                || dividendo.compareTo(new BigNumber("0")) == 0) {
+        // comprovacions
+        if (!nombreValid(dividend.toString()) || !nombreValid(divisor.toString()) || dividend.compareTo(divisor) == -1
+                || dividend.compareTo(new BigNumber("0")) == 0) {
             resultat[0] = "0";
-            seguirDivision = false;
+            seguirDivisio = false;
         }
 
-        // elegimos el numero que vamos a dividir la primera vez
-        while(new BigNumber(primerNumero.toString()).compareTo(divisor) == -1 && seguirDivision) {
-            primerNumero.append(dividendo.toString().charAt(puntero));
-            puntero ++;
+        // elegim el nombre que dividirem el primer pic
+        while (new BigNumber(primerNombre.toString()).compareTo(divisor) == -1 && seguirDivisio) {
+            primerNombre.append(dividend.toString().charAt(punter));
+            punter++;
         }
-        residuo = new StringBuilder(primerNumero);
+        StringBuilder residu = new StringBuilder(primerNombre);
 
-        // empezamos a dividir
-        while(seguirDivision){
+        // començam a dividir
+        while (seguirDivisio) {
 
-            // elegimos el cociente adecuado
-            while(new BigNumber(cociente_aux.toString()).mult(divisor).compareTo(new BigNumber(residuo.toString())) < 1) {
-                cociente_aux = new BigNumber(cociente_aux.add(new BigNumber("1")));
+            // elegim el quocient adequat
+            while (new BigNumber(quocientAux.toString()).mult(divisor).compareTo(new BigNumber(residu.toString())) < 1) {
+                quocientAux = new BigNumber(quocientAux.add(new BigNumber("1")));
             }
-            cociente_aux = new BigNumber(cociente_aux.sub(new BigNumber("1")));
-            cociente.append(cociente_aux);
+            quocientAux = new BigNumber(quocientAux.sub(new BigNumber("1")));
+            quocient.append(quocientAux);
 
-            // dividimos
-            residuo = new StringBuilder(new BigNumber(residuo.toString()).sub(divisor.mult(new BigNumber(cociente_aux.toString()))).toString());
+            // dividim
+            residu = new StringBuilder(new BigNumber(residu.toString()).sub(divisor.mult(new BigNumber(quocientAux.toString()))).toString());
+            quocientAux = new BigNumber("0");
 
-            cociente_aux = new BigNumber("0");
+            // baixam nombres del dividend al residu sempre que sigui necessari
+            while (new BigNumber(residu.toString()).compareTo(divisor) < 0) {
 
-
-            // bajamos numeros del dividendo al residuo siempre que sea necesario
-            while(new BigNumber(residuo.toString()).compareTo(divisor) < 0) {
-
-                if (puntero == dividendo.toString().length()){
-                    seguirDivision = false;
+                if (punter == dividend.toString().length()) {
+                    seguirDivisio = false;
                     break;
                 }
+                residu.append(dividend.toString().charAt(punter));
 
-                residuo.append(dividendo.toString().charAt(puntero));
-
-                if (new BigNumber(residuo.toString()).compareTo(divisor) < 0){
-                    cociente.append("0");
+                if (new BigNumber(residu.toString()).compareTo(divisor) < 0) {
+                    quocient.append("0");
                 }
-                puntero++;
+                punter++;
             }
         }
 
         // ficam el quocient al primer lloc del string resultat
         if (resultat[0] == null) {
-            resultat[0] = cociente.toString();
+            resultat[0] = quocient.toString();
         }
 
         // ficam el residu al segon lloc
-        resultat[1] = residuo.toString();
+        resultat[1] = residu.toString();
 
         // ficam el quocient al darrer lloc
         resultat[2] = divisor.toString();
@@ -361,27 +338,25 @@ public class BigNumber {
         return resultat;
     }
 
-
-    // Compara dos BigNumber. Torna 0 si són iguals, -1 si el primer és menor
+    // compara dos BigNumber. Torna 0 si són iguals, -1 si el primer és menor
     // i torna 1 si el segon és menor
     public int compareTo(BigNumber other) {
 
-        String number1 = quitarCeros(this.number);
-        String number2 = quitarCeros(other.toString());
+        String number1 = llevarZeros(this.number);
+        String number2 = llevarZeros(other.toString());
 
-        // comprobamos que los dos números son válidos
-        if (!numeroValido(number1) || !numeroValido(number2)) {
-            System.out.println("Ha habido un error.");
+        // comprovacions
+        if (!nombreValid(number1) || !nombreValid(number2)) {
             return -2;
         }
 
         if (number1.length() != number2.length()) {
-            // si la longitud de los números es diferente entre si
+            // si la longitud dels nombres es diferent entre si
             if (number1.length() > number2.length()) return 1;
             return -1;
 
         } else {
-            // si la longitud de los números es igual
+            // si la longitud dels nombres es igual
             for (int i = 0; i < number1.length(); i++) {
                 if (number1.charAt(i) > number2.charAt(i)) return 1;
                 if (number1.charAt(i) < number2.charAt(i)) return -1;
@@ -390,42 +365,39 @@ public class BigNumber {
         }
     }
 
-
-    // Torna un String representant el número
+    // torna un String representant el nombre
     @Override
     public String toString() {
         return this.number;
     }
 
-
-    // Mira si dos objectes BigNumber són iguals
+    // mira si dos objectes BigNumber són iguals
     @Override
     public boolean equals(Object other) {
 
         if (other instanceof BigNumber) {
             BigNumber b = (BigNumber) other;
-            return quitarCeros(this.number).equals(quitarCeros(b.toString()));
+            return llevarZeros(this.number).equals(llevarZeros(b.toString()));
         }
         return false;
     }
 
-
-    public String quitarCeros(String s) {
-
-        // Quita los ceros que pueda haber al principio de cada número
+    // s'encarrega d'eliminar els zeros innecesaris d'un string
+    public String llevarZeros(String s) {
 
         StringBuilder number = new StringBuilder();
         int counter = 0;
 
+        // conta la quantitat de zeros al principi de cada nombre
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) != 48) {
                 break;
             } else {
-                counter ++;
+                counter++;
             }
         }
 
-        // significa que es un numero de tipo: 0000
+        // significa que es un nombre de tipo: 0000
         if (counter == s.length()) {
             return "0";
         } else {
@@ -433,14 +405,11 @@ public class BigNumber {
                 number.append(s.charAt(i + counter));
             }
         }
-
         return number.toString();
     }
 
-
-    // comprueba que todos los dígitos de n son válidos
-    public boolean numeroValido(String n) {
-
+    // comprova que tots els dígits de n son vàlids
+    public boolean nombreValid(String n) {
         for (int i = 0; i < n.length(); i++) {
             if (n.charAt(i) < 48 || n.charAt(i) > 57) {
                 return false;

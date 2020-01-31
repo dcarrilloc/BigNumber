@@ -302,6 +302,9 @@ public class BigNumberTest {
         b1 = new BigNumber("5");
         assertEquals(new BigNumber("1"), b1.power(0));
 
+        b1 = new BigNumber("5");
+        assertEquals(new BigNumber("5"), b1.power(1));
+
         b1 = new BigNumber("12");
         assertEquals(new BigNumber("1728"), b1.power(3));
 
