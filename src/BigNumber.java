@@ -150,8 +150,8 @@ public class BigNumber {
 
     // Divideix
     BigNumber div(BigNumber other) {
-        String[] aux = divisioAmpliada(this, other);
-        return new BigNumber(aux[0]);
+        String[] resultat = divisioAmpliada(this, other);
+        return new BigNumber(resultat[0]);
     }
 
     // Arrel quadrada
