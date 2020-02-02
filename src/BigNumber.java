@@ -332,7 +332,7 @@ public class BigNumber {
         // ficam el residu al segon lloc
         resultat[1] = residu.toString();
 
-        // ficam el quocient al darrer lloc
+        // ficam el divisor al darrer lloc
         resultat[2] = divisor.toString();
 
         return resultat;
